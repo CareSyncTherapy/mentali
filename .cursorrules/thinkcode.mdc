@@ -1,0 +1,32 @@
+# Core Development Rules
+
+## Code Quality Standards
+- **79 character line limit** - Never exceed 79 characters per line
+- **2 blank lines** between functions and classes
+- **No hardcoded strings** - Always use dynamic variables
+- **Binary operators at line start** - When breaking lines, put operators at the beginning of the next line
+
+## Error Handling
+- Use `log_to_db` function instead of `logging.error`
+- Provide clear, actionable error messages
+- Handle exceptions gracefully with specific exception types
+
+## Code Review Process
+- **Pro perspective**: Advocate for the code's strengths and benefits
+- **Con perspective**: Identify potential issues, risks, and alternatives  
+- **Neutral perspective**: Synthesize both viewpoints and make balanced recommendations
+
+## Refactoring Safety
+- **ALWAYS** review the entire repository before deleting functions/files
+- Ensure all references to changed code are updated or removed
+- Verify no broken dependencies remain
+
+## Dynamic Programming
+- Prefer dynamic solutions over static strings
+- Use variables and configuration over hardcoded values
+- Keep code flexible and maintainable
+
+
+# Your rule content
+
+[role-definition.mdc](mdc:app/rules/role-definition.mdc)
