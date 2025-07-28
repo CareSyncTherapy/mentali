@@ -572,4 +572,5 @@ if __name__ == "__main__":
         log_to_db("Database tables created/verified", "INFO")
 
     # Run the application
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
