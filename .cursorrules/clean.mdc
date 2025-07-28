@@ -11,7 +11,7 @@ Fix all code formatting and quality issues in the entire codebase.
 Fix all `black`, `isort`, `flake8`, and `mypy` issues
 
 ### Steps:
-1. **Format with Black**: `black .`
+1. **Format with Flake8**: `flake8 .`
 2. **Sort imports with isort**: `isort .`
 3. **Fix flake8 issues**: `flake8 . --extend-ignore=E203`
 4. **Resolve mypy type errors**: `mypy .`
