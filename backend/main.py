@@ -323,11 +323,17 @@ def health_check():
     Returns:
         dict: Application status and version information
     """
+    try:
+        # Test database connection
+        db_status = "connected" if db.engine.pool.checkedin() > 0 else "disconnected"
+    except Exception:
+        db_status = "unavailable"
+
     return jsonify({
         "status": "healthy",
         "timestamp": datetime.utcnow().isoformat(),
         "version": "1.0.0",
-        "database": "connected" if db.engine.pool.checkedin() > 0 else "disconnected"
+        "database": db_status
     })
 
 
@@ -548,7 +554,16 @@ def index():
     Returns:
         str: Simple status message
     """
-    return "CareSync Backend API is running! Check /api/health for detailed status."
+    return jsonify({
+        "message": "CareSync Backend API is running!",
+        "status": "healthy",
+        "timestamp": datetime.utcnow().isoformat(),
+        "endpoints": {
+            "health": "/api/health",
+            "auth": "/api/auth/*",
+            "therapists": "/api/therapists"
+        }
+    })
 
 
 # Error handlers
@@ -566,10 +581,15 @@ def internal_error(error):
 
 
 if __name__ == "__main__":
-    # Create database tables
-    with app.app_context():
-        db.create_all()
-        log_to_db("Database tables created/verified", "INFO")
+    # Create database tables (only if database is available)
+    try:
+        with app.app_context():
+            db.create_all()
+            log_to_db("Database tables created/verified", "INFO")
+    except Exception as e:
+        log_to_db(f"Database initialization failed: {str(e)}", "WARNING")
+        print(f"Warning: Database initialization failed: {str(e)}")
+        print("App will start without database tables. Make sure to run migrations later.")
 
     # Run the application
     port = int(os.environ.get('PORT', 5000))
